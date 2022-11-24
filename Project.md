@@ -45,9 +45,10 @@ rolls<-function()
 }
 mean(replicate(10000,rolls()))
 ```
-Taking the mean from 5 times the above calculation, we also do a simulation to get a better estimate:
+Upon doing the simulation, we get the value as: `6.0523`. Taking the mean from 5 times the above calculation, we also do a simulation to get a better estimate:
 ```
 mean(replicate(5,mean(replicate(10000,rolls()))))
 ```
+This returns a value of `6.018`
 ######  Conclusion
 We have observed by using simulation that the expected value of rolling a die until a 6 turns up is almost equal to 6. This verifies the probabilistic approach we used to find an answer to this question. The more the sample, the closer will be the result of the simulation to the number 6, as we found out in our comparative simulation.
