@@ -18,3 +18,36 @@ In general prob that $X=k$ is
 $$P\left(X=k\right)=\left(\frac{5}{6}\right)^{k-1}\frac{1}{6}\quad,k=1,2,\ldots$$
 Since in order for $x$ to be $k$, there must be $(k-1)$ rolls which can be any of the numbers 1 to 5, and then 6, which appears with probability $\frac{1}{6}$.
 We seek the expectation of $X$.
+```math
+\begin{align}
+E\left(X\right) & =\sum_{n=1}^{\infty}nP\left(x=n\right)\\
+\Rightarrow E\left(X\right) & =\sum_{n=1}^{\infty}n\left(\frac{5}{6}\right)^{n-1}\cdot\frac{1}{6}=\frac{6}{5}\cdot\frac{1}{6}\sum_{n=1}^{\infty}n\left(\frac{5}{6}\right)^{n}\\
+ & =\frac{1}{5}\sum_{n=1}^{\infty}n\left(\frac{5}{6}\right)^{n}\quad\text{ Which is an AGP series }\\
+ & =\frac{1}{5}\left(\frac{\frac{5}{6}}{1-\left(\frac{5}{6}\right)^{2}}\right)\\
+ & =\frac{1}{5}\times\frac{5}{6}\times\frac{36}{1}\\
+ & =6
+\end{align}
+```
+Thus on an average it takes 6 throws of a die before a 6 appears.
+######  Simulation
+We do the simulation in the following manner:
+```
+rolls<-function()
+{
+	x<-sample(1:6,1)
+	i=1
+	while(x!=6)
+	{
+		x<-sample(1:6,1)
+		i=i+1
+	}
+	return(i)
+}
+mean(replicate(10000,rolls()))
+```
+Taking the mean from 5 times the above calculation, we also do a simulation to get a better estimate:
+```
+mean(replicate(5,mean(replicate(10000,rolls()))))
+```
+######  Conclusion
+We have observed by using simulation that the expected value of rolling a die until a 6 turns up is almost equal to 6. This verifies the probabilistic approach we used to find an answer to this question. The more the sample, the closer will be the result of the simulation to the number 6, as we found out in our comparative simulation.
