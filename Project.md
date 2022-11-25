@@ -52,3 +52,61 @@ mean(replicate(5,mean(replicate(10000,rolls()))))
 This returns a value of `6.018`
 ######  Conclusion
 We have observed by using simulation that the expected value of rolling a die until a 6 turns up is almost equal to 6. This verifies the probabilistic approach we used to find an answer to this question. The more the sample, the closer will be the result of the simulation to the number 6, as we found out in our comparative simulation.
+####  2.	On an average, how many times must a 6-sided die be rolled until a 6 turns up twice a row?
+We use recurrence relation to solve this, Let $E(X)$ be expected
+no. of rolls. When we start rolling, we expect, on average 6 rolls
+until a 6 shows up. Once that happens, there is a $\frac{1}{6}$ chance
+we will roll once more and a $\frac{5}{6}$ chance that we will be
+effectively starting all over again, and so have as many starting
+all over again, and so have as many additional rolls as when we started,
+we say,
+```math
+\begin{align}
+E\left(X\right) & =6+\frac{1}{6}+\frac{5}{6}\left(E\left(X\right)+1\right)\\
+\implies\frac{1}{6}E\left(X\right) & =6+\frac{1}{6}+\frac{5}{6}\\
+\implies E\left(X\right) & =42
+\end{align}
+```
+Thus, on an average 42 is no. of times needed for a dice to be rolled until 6 appears twice in a row.
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function()
+{
+	j=0
+	x<-sample(1:6,1)
+	i=1
+	if(x==6)
+	{
+		j=1
+		x<-sample(1:6,1)
+		i=i+1
+		if(x!=6) j=0
+	}
+	while(j!=1)
+	{
+		x<-sample(1:6,1)
+		i=i+1
+		if(x==6)
+		{
+			j=1
+			x<-sample(1:6,1)
+			i=i+1
+			if(x!=6) j=0
+		}
+	}
+	return(i)
+}
+mean(replicate(10000,rolls()))
+```
+Upon running this, we found the value to be: `41.5374`.Taking the mean from 5 times the above calculation, we also do a simulation to get a better estimate:
+```
+mean(replicate(5,mean(replicate(10000,rolls()))))
+```
+This returns the value: `42.32468`
+######	Conclusion
+We have observed by using simulation that the expected value of rolling
+a die until a 6 turns up twice in a row is almost equal to 42. This
+verifies the probabilistic approach we used to find an answer to this
+question. The more the sample, the closer will be the result of the
+simulation to the number 42, as we found out in our comparative simulation.
