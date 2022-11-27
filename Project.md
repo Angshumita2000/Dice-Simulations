@@ -164,6 +164,6 @@ Upon running this, we found the value to be: `35.7654`.Taking the mean from 5 ti
 mean(replicate(5,mean(replicate(10000,rolls()))))
 ```
 This returns the value: `36.07392`
-#######	Corollary: It takes lesser rolls on an average to see a 6 followed by a 5 than for 6 followed by 6.
+######	Corollary: It takes lesser rolls on an average to see a 6 followed by a 5 than for 6 followed by 6.
 ######	Conclusion
 We have observed by using simulation that the expected value of rolling a die until a 6 turns up followed by a 5 is almost equal to 36. This verifies the probabilistic approach we used to find an answer to this question. The more the sample, the closer will be the result of the simulation to the number 36, as we found out in our comparative simulation.
