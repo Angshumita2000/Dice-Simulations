@@ -110,3 +110,60 @@ a die until a 6 turns up twice in a row is almost equal to 42. This
 verifies the probabilistic approach we used to find an answer to this
 question. The more the sample, the closer will be the result of the
 simulation to the number 42, as we found out in our comparative simulation.
+####	3.	On average, how many times must a 6-sided die be rolled until the sequence 65 appears (that is a 6 followed by a 5)?
+In this problem, once we roll a 6 there are 3 possibilities:
+- We roll a 5
+- We roll a 6
+- We start over again
+
+We again use recursion, but we will have two simultaneous equations.
+Let $E$ be the expected number of rolls until 65 and let $E_{6}$
+be the expected number of rolls until 65 when we start with a rolled
+6. Then
+```math
+\begin{align}
+E_{6} & =\frac{1}{6}\left(E_{6}+1\right)+\frac{4}{6}\left(E+1\right)+\frac{1}{6}\times1\\
+E & =\frac{1}{6}\left(E_{6}+1\right)+\frac{5}{6}\left(E+1\right)
+\end{align}
+```
+On solving both, we have
+$$E=36\;E_{6}=30$$
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function()
+{
+	j=0
+	x<-sample(1:6,1)
+	i=1
+	while(x==6)
+	{
+		j=1
+		x<-sample(1:6,1)
+		i=i+1
+		if(x!=5) j=0
+	}
+	while(j!=1)
+	{
+		x<-sample(1:6,1)
+		i=i+1
+		while(x==6)
+		{
+			j=1
+			x<-sample(1:6,1)
+			i=i+1
+			if(x!=5) j=0
+		}
+	}
+	return(i)
+}
+mean(replicate(10000,rolls()))
+```
+Upon running this, we found the value to be: `35.7654`.Taking the mean from 5 times the above calculation, we also do a simulation to get a better estimate:
+```
+mean(replicate(5,mean(replicate(10000,rolls()))))
+```
+This returns the value: `36.07392`
+#######	Corollary: It takes lesser rolls on an average to see a 6 followed by a 5 than for 6 followed by 6.
+######	Conclusion
+We have observed by using simulation that the expected value of rolling a die until a 6 turns up followed by a 5 is almost equal to 36. This verifies the probabilistic approach we used to find an answer to this question. The more the sample, the closer will be the result of the simulation to the number 36, as we found out in our comparative simulation.
