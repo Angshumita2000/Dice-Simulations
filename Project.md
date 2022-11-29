@@ -167,3 +167,48 @@ This returns the value: `36.07392`
 ######	Corollary: It takes lesser rolls on an average to see a 6 followed by a 5 than for 6 followed by 6.
 ######	Conclusion
 We have observed by using simulation that the expected value of rolling a die until a 6 turns up followed by a 5 is almost equal to 36. This verifies the probabilistic approach we used to find an answer to this question. The more the sample, the closer will be the result of the simulation to the number 36, as we found out in our comparative simulation.
+####	4.	On average, how many times must a 6-sided die be rolled until there are two rolls in a row that differ by 1(such as a 2 followed by a 1 or 3, or a 6 followed by a 5)? What if we roll until there are two rolls in a row that differ by no more than 1(so we stop at a repeated roll, too)?
+Let $E$ be the expected no. of rolls. Let $E_{i}$ be the expected
+no. of rolls after rolling an $i$ (not following a roll of $i-1$
+or $i+1$). Then, we have
+$$E=1+\frac{1}{6}\left(E_{1}+E_{2}+E_{3}+E_{4}+E_{5}+E_{6}\right)$$
+By symmetry, we have $E_{1}=E_{6},\;E_{2}=E_{5},\;E_{3}=E_{4}$ and
+thus
+$$E=1+\frac{2}{6}\left(E_{1}+E_{2}+E_{3}\right)$$
+We can also right $E_{1}$as $E_{1}=1+\frac{2}{6}E_{1}+\frac{1}{6}E_{2}+\frac{2}{6}E_{3}$.
+Since there will be an additional roll, there is a $\frac{1}{6}$
+chance that this will be the last roll (i.e. we roll a 2) and five
+other possibilities are equally likely. Similarly, $E_{2}=1+\frac{1}{6}E_{1}+\frac{2}{6}E_{2}+\frac{1}{6}E_{3}$
+and $E_{3}=1+\frac{2}{6}E_{1}+\frac{1}{6}E_{2}+\frac{1}{6}E_{3}$.
+Thus, after solving, we get,
+$$E_{1}=\frac{70}{17},\;E_{2}=\frac{58}{17},\;E_{3}=\frac{60}{17}$$
+Thus, we get that,
+$$E=1+\frac{1}{3}\times\left(\frac{70+58+60}{17}\right)=\frac{239}{51}=4.6862$$
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function()
+{
+	x<-sample(1:6,1);y<-sample(1:6,1)
+	i=2
+	while(abs(x-y)!=1)
+	{
+		x<-y;y<-sample(1:6,1)
+		i=i+1
+	}
+return(i)
+}
+mean(replicate(10000,rolls()))
+```
+Upon running this, we found the value to be: `4.702`. Taking the mean from 5 times the above calculation, we also do a simulation to get a better estimate:
+```
+mean(replicate(5,mean(replicate(10000,rolls()))))
+```
+This returns the value: `4.69556`
+######	Conclusion for first part
+We have observed by using simulation that the expected value of rolling
+a die until there are two rolls in a row that differ by 1 is almost
+equal to 4.6862. This verifies the probabilistic approach we used
+to find an answer to this question. The more the sample, the closer
+will be the result of the simulation to the number 36, as we found
+out in our comparative simulation.
