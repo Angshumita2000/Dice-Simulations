@@ -250,3 +250,6 @@ Upon running this, we found the value to be: `3.247`. Taking the mean from 5 tim
 mean(replicate(5,mean(replicate(10000,rolls()))))
 ```
 This returns the value: `3.29216`
+######	Conclusion for second part
+We have observed by using simulation that the expected value of rolling a die until there are two rolls in a row that differ by at most 1 is almost equal to 3.278. This verifies the probabilistic approach we used to find an answer to this question. The more the sample, the closer will be the result of the simulation to the number 3.278, as we found out in our comparative simulation.
+######	Corollary: The expected values of rolls until there are two rolls in a row that differ by 1 is greater than the expected number of rolls until there are two rolls in a row that differ by no more than 1
