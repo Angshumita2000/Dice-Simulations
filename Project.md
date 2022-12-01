@@ -212,3 +212,41 @@ equal to 4.6862. This verifies the probabilistic approach we used
 to find an answer to this question. The more the sample, the closer
 will be the result of the simulation to the number 36, as we found
 out in our comparative simulation.
+
+If we stop when we have a repeated roll too, a similar situation arises.
+Defining $E,E_{1},E_{2},E_{3}$ as same, we have
+```math
+\begin{align}E & =1+\frac{2}{6}\left(E_{1}+E_{2}+E_{3}\right)\\
+E_{1} & =1+\frac{1}{6}E_{1}+\frac{1}{6}E_{2}+\frac{2}{6}E_{3}\\
+E_{2} & =1+\frac{1}{6}E_{1}+\frac{1}{6}E_{2}+\frac{1}{6}E_{3}\\
+E_{3} & =1+\frac{2}{6}E_{1}+\frac{1}{6}E_{2}
+\end{align}
+```
+Solving, we get,
+```math
+\begin{align}
+E_{1} & =\frac{288}{115},\;E_{2}=\frac{246}{115},\;E_{3}=\frac{252}{115}\\
+E & =1+\frac{1}{3}\left(\frac{288+246+252}{115}\right)=\frac{377}{115}=3.278
+\end{align}
+```
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function()
+{
+	x<-sample(1:6,1);y<-sample(1:6,1)
+	i=2
+	while(abs(x-y)>1)
+	{
+		x<-y;y<-sample(1:6,1)
+		i=i+1
+	}
+return(i)
+}
+mean(replicate(10000,rolls()))
+```
+Upon running this, we found the value to be: `3.247`. Taking the mean from 5 times the above calculation, we also do a simulation to get a better estimate:
+```
+mean(replicate(5,mean(replicate(10000,rolls()))))
+```
+This returns the value: `3.29216`
