@@ -253,3 +253,47 @@ This returns the value: `3.29216`
 ######	Conclusion for second part
 We have observed by using simulation that the expected value of rolling a die until there are two rolls in a row that differ by at most 1 is almost equal to 3.278. This verifies the probabilistic approach we used to find an answer to this question. The more the sample, the closer will be the result of the simulation to the number 3.278, as we found out in our comparative simulation.
 ######	Corollary: The expected values of rolls until there are two rolls in a row that differ by 1 is greater than the expected number of rolls until there are two rolls in a row that differ by no more than 1
+####	We roll 6-sided die $n$ times. What is the probability that all faces have appeared?
+Let $P\left(n\right)$ stand for the probability that all the faces
+have appeared in $n$ rolls. To determine $P\left(n\right)$, we use
+inclusion-exclusion principle. We wished to count the no. of rolls
+that do not contain all the faces. There are $6^{n}$ ways to roll
+a die n times. Of these, $5^{n}$ have no 1 face, $4^{n}$ have no
+2 faces, and so on...We continue by adding and subtracting no. of
+sequences, until we reach the final count, where no sequences can
+fail to have any of the 6 faces:
+```math
+{6 \choose 1}5^{n}-{6 \choose 2}4^{n}+{6 \choose 3}3^{n}-{6 \choose 4}2^{n}+{6 \choose 5}
+```
+Hence the probability of having 6 faces appear in $n$ rolls of a
+die is:
+```math
+\begin{align}
+1-{6 \choose 1}\left(\frac{5}{6}\right)^{n}+{6 \choose 2}\left(\frac{4}{6}\right)^{n}-{6 \choose 3}\left(\frac{3}{6}\right)^{n}+{6 \choose 4}\left(\frac{2}{6}\right)^{n}-{6 \choose 5}\left(\frac{1}{6}\right)^{n}\\
+=\frac{6^{n}-6\cdot5^{n}+15\cdot4^{n}-20\cdot3^{n}+15\cdot2^{n}-6}{6^{n}}
+\end{align}
+```
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function(n)
+{
+	x<-sample(1:6,n,replace=T)
+	if(length(unique(x))==6) return(1)
+	else return(0)
+}
+mean_vec<-NULL
+for(i in 1:100)
+{
+	x<-replicate(10000,rolls(i))
+	mean_vec<-c(mean_vec,mean(x))
+}
+```
+Then we generate a plot using:
+```
+plot(1:100,mean_vec,type='l',
+	xlab='No. of rolls',
+	ylab='Probability',
+	main='Probability that all the faces have appeared')
+abline(v=min(which(mean_vec==1)))
+```
