@@ -253,7 +253,7 @@ This returns the value: `3.29216`
 ######	Conclusion for second part
 We have observed by using simulation that the expected value of rolling a die until there are two rolls in a row that differ by at most 1 is almost equal to 3.278. This verifies the probabilistic approach we used to find an answer to this question. The more the sample, the closer will be the result of the simulation to the number 3.278, as we found out in our comparative simulation.
 ######	Corollary: The expected values of rolls until there are two rolls in a row that differ by 1 is greater than the expected number of rolls until there are two rolls in a row that differ by no more than 1
-####	We roll 6-sided die $n$ times. What is the probability that all faces have appeared?
+####	5.	We roll 6-sided die $n$ times. What is the probability that all faces have appeared?
 Let $P\left(n\right)$ stand for the probability that all the faces
 have appeared in $n$ rolls. To determine $P\left(n\right)$, we use
 inclusion-exclusion principle. We wished to count the no. of rolls
@@ -297,3 +297,11 @@ plot(1:100,mean_vec,type='l',
 	main='Probability that all the faces have appeared')
 abline(v=min(which(mean_vec==1)))
 ```
+The plot came out as follows:
+
+![Q-5](Plots/Q-5plot.jpeg)
+
+######	Conclusion
+We find that on an average after 60 rolls of a die, all the faces
+of a die have appeared at least once, with probability 1. This has
+been verified with the help of a simulation.
