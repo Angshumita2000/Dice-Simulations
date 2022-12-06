@@ -172,7 +172,7 @@ Let $E$ be the expected no. of rolls. Let $E_{i}$ be the expected
 no. of rolls after rolling an $i$ (not following a roll of $i-1$
 or $i+1$). Then, we have
 $$E=1+\frac{1}{6}\left(E_{1}+E_{2}+E_{3}+E_{4}+E_{5}+E_{6}\right)$$
-By symmetry, we have $E_{1}=E_{6},\;E_{2}=E_{5},\;E_{3}=E_{4}$ and
+By symmetry, we have $E_{1}=E_{6},E_{2}=E_{5},E_{3}=E_{4}$ and
 thus
 $$E=1+\frac{2}{6}\left(E_{1}+E_{2}+E_{3}\right)$$
 We can also right $E_{1}$as $E_{1}=1+\frac{2}{6}E_{1}+\frac{1}{6}E_{2}+\frac{2}{6}E_{3}$.
@@ -181,7 +181,7 @@ chance that this will be the last roll (i.e. we roll a 2) and five
 other possibilities are equally likely. Similarly, $E_{2}=1+\frac{1}{6}E_{1}+\frac{2}{6}E_{2}+\frac{1}{6}E_{3}$
 and $E_{3}=1+\frac{2}{6}E_{1}+\frac{1}{6}E_{2}+\frac{1}{6}E_{3}$.
 Thus, after solving, we get,
-$$E_{1}=\frac{70}{17},\;E_{2}=\frac{58}{17},\;E_{3}=\frac{60}{17}$$
+$$E_{1}=\frac{70}{17}, E_{2}=\frac{58}{17}, E_{3}=\frac{60}{17}$$
 Thus, we get that,
 $$E=1+\frac{1}{3}\times\left(\frac{70+58+60}{17}\right)=\frac{239}{51}=4.6862$$
 ######	Simulation
@@ -305,3 +305,59 @@ The plot came out as follows:
 We find that on an average after 60 rolls of a die, all the faces
 of a die have appeared at least once, with probability 1. This has
 been verified with the help of a simulation.
+####	6.	We roll a 6-sided die $n$ times. What is the probability that all faces have appeared in order, in some six consecutive rolls (i.e., what is the probability that the sub-sequence 123456 appears among the rolls)?
+This problem. has a nice way to solve using Markov chains (Stochastic
+Process). We define a 0 state as the state we start in and the state
+we are in if the current value was not preceded by smaller value in
+order (if the current roll is a 2 , but previous roll was not a 1),
+and then six states corresponding to having a current \textquotedbl streak\textquotedbl{}
+of $1, 12, 123, 1234, 12345, 123456$. We get the following transition
+matrix:
+```math
+M=\begin{pmatrix}\frac{5}{6} & \frac{1}{6} & 0 & 0 & 0 & 0 & 0\\
+\frac{2}{3} & \frac{1}{6} & \frac{1}{6} & 0 & 0 & 0 & 0\\
+\frac{2}{3} & \frac{1}{6} & 0 & \frac{1}{6} & 0 & 0 & 0\\
+\frac{2}{3} & \frac{1}{6} & 0 & 0 & \frac{1}{6} & 0 & 0\\
+\frac{2}{3} & \frac{1}{6} & 0 & 0 & 0 & \frac{1}{6} & 0\\
+\frac{2}{3} & \frac{1}{6} & 0 & 0 & 0 & 0 & \frac{1}{6}\\
+0 & 0 & 0 & 0 & 0 & 0 & 1
+\end{pmatrix}_{7\times7}
+```
+Then, the probability $p$ we seek is the last entry in the first
+row of $M^{n}$. The probability we seek can be found out by calculating
+$M^{n}$ and checking the $\left(1,7\right)^{th}$ element of the
+matrix.
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function(n)
+{
+	j=0
+	x<-sample(1:6,n,replace=T)
+	y<-which(x==1)
+	for(i in y)
+	{
+		if(n-i<5)	break
+		else if((x[i+1]==2)&&(x[i+2]==3)&&(x[i+3]==4)&&(x[i+4]==5)&&(x[i+5]==6))
+		{
+			j=1
+			break
+		}
+	}
+	return(j)
+}
+mean_vec<-NULL
+for(i in 1:100)
+{
+	x<-replicate(10000,rolls(i))
+	mean_vec<-c(mean_vec,mean(x))
+}
+```
+Then once again, we generate a plot:
+```
+plot(1:100,mean_vec,
+	type='l',
+	xlab='No. of rolls',
+	ylab='Probability',
+	main='Probability that the sequence 123456 have appeared')
+```
