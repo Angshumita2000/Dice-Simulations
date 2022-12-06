@@ -361,3 +361,6 @@ plot(1:100,mean_vec,
 	ylab='Probability',
 	main='Probability that the sequence 123456 have appeared')
 ```
+The plot came out as follows:
+
+![Q-6](Plots/Q-6plot.jpeg)
