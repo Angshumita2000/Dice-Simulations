@@ -364,3 +364,11 @@ plot(1:100,mean_vec,
 The plot came out as follows:
 
 ![Q-6](Plots/Q-6plot.jpeg)
+
+Further, upon increasing the number of rolls to 300000, we get the result to be: `0.9988`
+######	Conclusion
+We find an increasing trend in the probability of getting a sub-sequence
+as 123456 as the number of rolls is increased. We verified this using
+simulation. We observed that after 300000 rolls, we can say that the
+sub-sequence 123456 will appear at least once almost with probability
+1.
