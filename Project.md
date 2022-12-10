@@ -583,6 +583,8 @@ plot(1:15,mean_vec,type='l',
 ```
 The plot came out as follows:
 
+![Q-9](Plots/Q-9plot.jpeg)
+
 ######	Conclusion
 We draw the following conclusion regarding the highest possible score on an average:
 -	If $n=1$, we choose our score as 3
@@ -593,3 +595,103 @@ We do this, using the help of simulation which further verified our
 mathematical treatment of the problem. We also note that, after about
 50 rolls, the highest possible score converges to 6 with probability
 1.
+####	10.	Suppose we roll a fair dice 10 times. What is the probability that the sequence of rolls is non-decreasing?
+
+The total no. of possible roll sequences if $6^{10}$. An observation
+is made that every non-decreasing sequence is equivalent to a histogram
+or a vector which gives no. of times each face appears. Thus, we wish
+to count how many ways 10 distinguishable things can be placed into
+6 bins, where we allow for zero items to be placed in some bins.
+
+We take a very crude method of counting these possibilities. First,
+we count for $n=2$. We note that we have the choices for this possibility
+as follows (in red):
+```math
+\begin{array}{cccccc}
+{\color{red}\left(1,1\right)} & {\color{red}\left(1,2\right)} & {\color{red}\left(1,3\right)} & {\color{red}\left(1,4\right)} & {\color{red}\left(1,5\right)} & {\color{red}\left(1,6\right)}\\
+\left(2,1\right) & {\color{red}\left(2,2\right)} & {\color{red}\left(2,3\right)} & {\color{red}\left(2,4\right)} & {\color{red}\left(2,5\right)} & {\color{red}\left(2,6\right)}\\
+\left(3,1\right) & \left(3,2\right) & {\color{red}\left(3,3\right)} & {\color{red}\left(3,4\right)} & {\color{red}\left(3,5\right)} & {\color{red}\left(3,6\right)}\\
+\left(4,1\right) & \left(4,2\right) & \left(4,3\right) & {\color{red}\left(4,4\right)} & {\color{red}\left(4,5\right)} & {\color{red}\left(4,6\right)}\\
+\left(5,1\right) & \left(5,2\right) & \left(5,3\right) & \left(5,4\right) & {\color{red}\left(5,5\right)} & {\color{red}\left(5,6\right)}\\
+\left(6,1\right) & \left(6,2\right) & \left(6,3\right) & \left(6,4\right) & \left(6,5\right) & {\color{red}\left(6,6\right)}
+\end{array}
+```
+A short counting shows that the number of such outcomes, in this case
+is $6+5+4+3+2+1=21$. Similarly for $n=3$, we have, fixing the first
+throw as $1$, the following possibilities (in red):
+```math
+\begin{array}{cccccc}
+{\color{red}\left(1,1,1\right)} & {\color{red}\left(1,1,2\right)} & {\color{red}\left(1,1,3\right)} & {\color{red}\left(1,1,4\right)} & {\color{red}\left(1,1,5\right)} & {\color{red}\left(1,1,6\right)}\\
+\left(1,2,1\right) & {\color{red}\left(1,2,2\right)} & {\color{red}\left(1,2,3\right)} & {\color{red}\left(1,2,4\right)} & {\color{red}\left(1,2,5\right)} & {\color{red}\left(1,2,6\right)}\\
+\left(1,3,1\right) & \left(1,3,2\right) & {\color{red}\left(1,3,3\right)} & {\color{red}\left(1,3,4\right)} & {\color{red}\left(1,3,5\right)} & {\color{red}\left(1,3,6\right)}\\
+\left(1,4,1\right) & \left(1,4,2\right) & \left(1,4,3\right) & {\color{red}\left(1,4,4\right)} & {\color{red}\left(1,4,5\right)} & {\color{red}\left(1,4,6\right)}\\
+\left(1,5,1\right) & \left(1,5,2\right) & \left(1,5,3\right) & \left(1,5,4\right) & {\color{red}\left(1,5,5\right)} & {\color{red}\left(1,5,6\right)}\\
+\left(1,6,1\right) & \left(1,6,2\right) & \left(1,6,3\right) & \left(1,6,4\right) & \left(1,6,5\right) & {\color{red}\left(1,6,6\right)}
+\end{array}
+```
+There are $21$ cases in here, as counted before. Now, fixing the
+our first throw at $2$, we have the following possibilities:
+```math
+\begin{array}{cccccc}
+\left(2,1,1\right) & \left(2,1,2\right) & \left(2,1,3\right) & \left(2,1,4\right) & \left(2,1,5\right) & \left(2,1,6\right)\\
+\left(2,2,1\right) & {\color{red}\left(2,2,2\right)} & {\color{red}\left(2,2,3\right)} & {\color{red}\left(2,2,4\right)} & {\color{red}\left(2,2,5\right)} & {\color{red}\left(2,2,6\right)}\\
+\left(2,3,1\right) & \left(2,3,2\right) & {\color{red}\left(2,3,3\right)} & {\color{red}\left(2,3,4\right)} & {\color{red}\left(2,3,5\right)} & {\color{red}\left(2,3,6\right)}\\
+\left(2,4,1\right) & \left(2,4,2\right) & \left(2,4,3\right) & {\color{red}\left(2,4,4\right)} & {\color{red}\left(2,4,5\right)} & {\color{red}\left(2,4,6\right)}\\
+\left(2,5,1\right) & \left(2,5,2\right) & \left(2,5,3\right) & \left(2,5,4\right) & {\color{red}\left(2,5,5\right)} & {\color{red}\left(2,5,6\right)}\\
+\left(2,6,1\right) & \left(2,6,2\right) & \left(2,6,3\right) & \left(2,6,4\right) & \left(2,6,5\right) & {\color{red}\left(2,6,6\right)}
+\end{array}
+```
+We observe a pattern:
+-	For $n=1$, the number of our favourable cases is $6$.
+-	For $n=2$, the number of our favourable cases is the sum of the first $6$ natural numbers: $21$.
+-	For $n=3$, the number of our favourable cases is the sum of the sum of the first $i$ natural numbers, $i=1\left(1\right)6$: $56$
+-	For $n=4$, the number of our favourable cases is the sum of the sum of the first $i$ natural numbers, $i=1\left(1\right)j,j=1\left(1\right)6$: $126$ and so on...
+
+For $n$ rolls, we find that the total number of our favourable cases is
+$${n+6-1 \choose 6-1}={n+5 \choose 5}$$
+Back to our question, we observe that this is equivalent to the no.
+of ways to place 16 indistinguishable items into 6 bins where each
+bin contains at least one item. For counting this, we use the stars
+and bars method. Putting 16 things into 6 bins is equivalent to putting
+5 stars among 16 bars, such that there is at most one bar between
+any two stars. Since there are 16 stars, there are 15 places, hence
+the no. of such sequences is
+$${15 \choose 5}=3003$$
+Probability of rolling such a sequence is
+$$\frac{3003}{6^{10}}=0.0000496$$
+For $n$ rolls, the probability is
+$$P_{n}=\frac{{n+6-1 \choose 5}}{6^{n}}=\frac{{n+5 \choose 5}}{6^{n}}$$
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function(n)
+{
+	x<-sample(1:6,n,replace=T)
+	return(all(x==sort(x)))
+}
+n<-10
+x<-replicate(1000000,rolls(n))
+mean(x)
+```
+This returns a value of: `5.1e-05`
+
+Note: We note that, as $n\to\infty$, the aforesaid probability converges
+to $0$. We can see that in a plot which was made using:
+```
+mean_vec<-NULL
+for(i in 1:20)
+{
+	x<-replicate(100000,rolls(i))
+	mean_vec<-c(mean_vec,mean(x))
+}
+plot(1:20,mean_vec,type='l',
+	xlab='No. of throws(n)',
+	ylab='Probability of a nondecreasing sequence',
+	main='Probability of a non-decreasing sequence in n throws of a dice')
+```
+The plot came out as follows:
+
+######	Conclusion
+We verified that the probability of rolling such a sequence is almost
+$5\times10^{-5}$ with the help of simulation. Also, we note that,
+as $n\to\infty$, this probability converges to 0.
