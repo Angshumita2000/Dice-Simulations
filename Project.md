@@ -372,3 +372,92 @@ as 123456 as the number of rolls is increased. We verified this using
 simulation. We observed that after 300000 rolls, we can say that the
 sub-sequence 123456 will appear at least once almost with probability
 1.
+####	7.	Person A rolls $n$ dice and person B rolls $m$ dice. What is the probability that they have a common face showing (e.g., person A rolled a 2 and person B also rolled a 2, among all their dice)?
+We will assume 6-sided die. Let $X$ be a multi-set of faces that
+person $A$ rolls, and $Y$ be multi-set of faces that person $B$
+rolls. We want $P\left(\left(1\in X\text{ and }1\in Y\right)\text{ or }\left(2\in X\text{ and }2\in Y\right)\text{ or}\cdots\right)$.
+Let $A_{i}$ be the event that $i\in X$ and $i\in Y$. By inclusion-exclusion
+principle, we have,
+```math
+P\left(\bigcup_{i=1}^{6}A_{i}\right)=\sum_{\substack{s\subseteq\left\{ 1,\cdots,6\right\} \\
+s\neq\phi
+}
+}\left(-1\right)^{\lfloor s\rfloor-1}P\left(\bigcup_{i\in s}A_{i}\right)
+```
+Now suppose $s\subseteq\left\{ 1,\cdots,6\right\} $ with $s=\left\{ j_{1},\cdots,j_{\lfloor s\rfloor}\right\} $.
+Then
+```math
+P\left(\bigcap_{i\in s}A_{i}\right)=P\left(j_{1},\cdots,j_{\lfloor s\rfloor}\in X\right)P\left(j_{1},\cdots,j_{\lfloor s\rfloor}\in Y\right)
+```
+Let $\alpha_{r}=P\left(j_{1},\cdots j_{r}\in X\right)$. Applying
+the inclusion-exclusion principle, we have,
+```math
+\begin{align}
+\alpha_{r} & =P\left(j_{1},\ldots,j_{r}\in X\right)\\
+ & =1-P\left(j_{1}\notin X\text{ or }j_{2}\notin X\text{ or... }\right)\\
+ & =1-P\left(\bigcup_{i=1}^{r}j_{i}\notin X\right)\\
+ & =1-\sum_{\substack{s\subseteq\{1,\cdots,r\}\\
+s\neq\phi
+}
+}\left(-1\right)^{\lfloor s\rfloor-1}P\left(\prod_{i\in s}j_{i}\notin x\right)\\
+ & =1-\sum_{s\subseteq\{1,\cdots,r\}}\left(-1\right)^{\lfloor s\rfloor-1}\left(1-\frac{|s|}{6}\right)^{n}\\
+ & =1-\sum_{i=1}^{r}\left(-1\right)^{r-1}\left(1-\frac{i}{6}\right)^{n}\left(\begin{array}{l}
+r\\
+i
+\end{array}\right)
+\end{align}
+```
+Similarly,
+```math
+\begin{align}
+\beta_{r} & =P\left(j_{1},\ldots,j_{r}\in y\right)\\
+\beta_{r} & =1-\sum_{i=1}^{r}(-1)^{i-1}\left(1-\frac{i}{6}\right)^{m}\left(\begin{array}{l}
+r\\
+i
+\end{array}\right)
+\end{align}
+```
+and so,
+```math
+\begin{align}
+P\left(\bigcap_{i\in s}A_{i}\right) & =\sum_{s\subseteq\{l,,,,6\}}(-1)^{\lfloor s\rfloor-1}\alpha_{\lfloor s\rfloor}\beta_{\lfloor s\rfloor}\\
+ & =\sum_{i=1}^{6}(-1)^{i-1}\alpha_{i}p_{i}\left(\begin{array}{l}
+6\\
+i
+\end{array}\right)
+\end{align}
+```
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function(n,m)
+{
+	a<-sample(1:6,n,replace=T);b<-sample(1:6,m,replace=T)
+	return(any(unique(a)%in%unique(b)))
+}
+mean_mat<-matrix(,nrow=12,ncol=12)
+for(i in 1:12)
+{
+	for(j in 1:12)
+	{
+		x<-replicate(10000,rolls(i,j))
+		mean_mat[i,j]<-mean(x)
+	}
+}
+```
+Finally, we draw a 3d perspective plot using:
+```
+persp(x<-1:12,y<-1:12,
+	mean_mat,
+	theta=30,phi=30,
+	xlab='Person A rolls',
+	ylab='Person B rolls',
+	zlab='Probability of getting a common face',
+	main='Probability of a common face showing',
+	col='#3d995a')
+```
+The plot came out as follows:
+
+######	Conclusion
+We conclude, by simulation, that if $n=9$ and $m=10$, the probability
+that a common face shows up on both the dice is 1.
