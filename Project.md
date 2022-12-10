@@ -463,3 +463,74 @@ The plot came out as follows:
 ######	Conclusion
 We conclude, by simulation, that if $n=9$ and $m=10$, the probability
 that a common face shows up on both the dice is 1.
+####	8.	On average, how many times must a pair of 6-sided dice be rolled until all sides appear at least once?
+We use Markov Chains to solve this problem. We view this game as being
+always in one of the no. of states with a fixed probability of moving
+from one state to each other in one roll of dice. we define our states
+by the number of sides we have seen appear so far. thus we start in
+state 0, and wish to end up in state 6 reaching some, or all states
+from 1, 2, 3, 4, 5 along the way. The question states, starting in
+state 0, what is the expected number of rolls until we reach a state
+6? We represent row 1 as state 0, row 2 as state 1 and so on. We get
+the following transition probability matrix:
+```math
+P=\begin{pmatrix}0 & \frac{1}{6} & \frac{5}{6} & 0 & 0 & 0 & 0\\
+0 & \frac{1}{36} & \frac{5}{12} & \frac{5}{9} & 0 & 0 & 0\\
+0 & 0 & \frac{1}{9} & \frac{5}{9} & \frac{1}{3} & 0 & 0\\
+0 & 0 & 0 & \frac{1}{4} & \frac{5}{12} & \frac{1}{6} & 0\\
+0 & 0 & 0 & 0 & \frac{4}{9} & \frac{1}{2} & \frac{1}{18}\\
+0 & 0 & 0 & 0 & 0 & \frac{25}{36} & \frac{11}{36}\\
+0 & 0 & 0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+```
+Now,
+```math
+Q=\begin{pmatrix}0 & \frac{1}{6} & \frac{5}{6} & 0 & 0 & 0\\
+0 & \frac{1}{36} & \frac{5}{12} & \frac{5}{9} & 0 & 0\\
+0 & 0 & \frac{1}{9} & \frac{5}{9} & \frac{1}{3} & 0\\
+0 & 0 & 0 & \frac{1}{4} & \frac{7}{12} & \frac{1}{6}\\
+0 & 0 & 0 & 0 & \frac{4}{9} & \frac{1}{2}\\
+0 & 0 & 0 & 0 & 0 & \frac{25}{36}
+\end{pmatrix}
+```
+We have the principal matrix as:
+```math
+N=\left(I-Q\right)^{-1}=\begin{pmatrix}1 & \frac{6}{35} & \frac{57}{56} & \frac{37}{42} & \frac{43}{28} & \frac{461}{154}\\
+0 & \frac{36}{35} & \frac{27}{56} & \frac{47}{12} & \frac{41}{28} & \frac{463}{159}\\
+0 & 0 & \frac{9}{8} & \frac{5}{6} & \frac{31}{20} & \frac{329}{110}\\
+0 & 0 & 0 & \frac{4}{3} & \frac{7}{5} & \frac{166}{55}\\
+0 & 0 & 0 & 0 & \frac{9}{5} & \frac{162}{55}\\
+0 & 0 & 0 & 0 & 0 & \frac{36}{11}
+\end{pmatrix}
+```
+Summing up the first row, we find the expected number of rolls until
+all the 6 sides have appeared
+$$=1+\frac{6}{35}+\frac{57}{56}+\frac{37}{42}+\frac{43}{28}+\frac{461}{154}=7.599\approx8$$
+By looking at the last entry of the first row of the powers of matrix
+$P$, we find the probability of reaching state 6 given by the number
+of rolls.
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function()
+{
+	a<-sample(1:6,2);i<-1
+	while(length(unique(a))!=6)
+	{
+		a<-c(a,sample(1:6,2,replace=T))
+		i=i+1
+	}
+	return(i)
+}
+x<-replicate(10000,rolls())
+mean(x)
+```
+This returns the value as: `7.5101`
+We the find the maximum number of rolls needed by `max(x)` and that returns the value as: `27`.
+Further, the probability that the required number of rolls is more than 24, given by `mean(x>24)` is: `7e-04`
+######	Conclusion
+We have observed by using simulation that the expected value of rolling
+a pair of die until all the sides appear at least once is 8. This
+verifies the Markov Chain approach we've used to find an answer to
+this question. Also, we find that there is less than $1e-03$ chance
+that more than 24 rolls of the pair will be needed.
