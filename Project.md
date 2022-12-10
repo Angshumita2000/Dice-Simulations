@@ -534,3 +534,62 @@ a pair of die until all the sides appear at least once is 8. This
 verifies the Markov Chain approach we've used to find an answer to
 this question. Also, we find that there is less than $1e-03$ chance
 that more than 24 rolls of the pair will be needed.
+####	9.	Suppose we can roll a 6-sided die up to $n$ times. At any point we can stop, and that roll becomes our "score". Our goal is to get the highest possible score, on average. How should we decide when to stop?
+If $n=1$, there is no decision to make. On average, the score is
+$\frac{7}{2}$ which is easy to see. If $n=2$, we want to check if
+the first roll is greater than 3.5 $\implies$ If it is greater than
+4 or not. Otherwise, we stop with the score at $n=1$. With $n=2$,
+we get the average score as
+$$4\times\frac{1}{6}+5\times\frac{1}{6}+6\times\frac{1}{6}+\frac{3}{6}\times\frac{7}{2}=4.25$$
+If $n=3$, we want to check on the first roll if it is greater than
+4.25 $\implies$ If it is greater than 5. Otherwise, we stop at the
+score of $n=2$. For $n=3$, the average score is
+$$5\times\frac{1}{6}+6\times\frac{1}{6}+\frac{4}{6}\times\frac{17}{4}=4.667$$
+In general if we have $f\left(n\right)$ as the expected value of
+our score with $n$ rolls left, using a $s$-sided dice, we have,
+```math
+\begin{align}
+f\left(n\right) & =\frac{\lfloor f\left(n-1\right)\rfloor}{s}f\left(n-1\right)+\sum_{j=\lfloor f\left(n-1\right)\rfloor+1}^{s}\frac{j}{s}\\
+f\left(1\right) & =\frac{s+1}{2}
+\end{align}
+```
+We can check the validity of our formula. For a regular, fair die,
+$s=6$. Then, we have,
+-	For $n=1$, $f\left(1\right)=\frac{7}{2}=3.5$.
+-	For $n=2$, $f\left(2\right)=\frac{17}{4}=4.25$
+-	For $n=3$, $f\left(3\right)=\frac{28}{6}=4.667$ and so on...
+
+######	Simulation
+We do the simulation in the following manner:
+```
+rolls<-function(n)
+{
+	x<-sample(1:6,n,replace=T)
+	return(max(x))
+}
+mean_vec<-NULL
+for(i in 1:15)
+{
+	x<-replicate(10000,rolls(i))
+	mean_vec<-c(mean_vec,mean(x))
+}
+```
+Then we plot the results using:
+```
+plot(1:15,mean_vec,type='l',
+	xlab='No. of throws',
+	ylab='Average score',
+	main='Maximum average score in n throws of a dice')
+```
+The plot came out as follows:
+
+######	Conclusion
+We draw the following conclusion regarding the highest possible score on an average:
+-	If $n=1$, we choose our score as 3
+-	If $2\leq n<4$, we choose our score as 4
+-	If $n\geq4$, we choose our score as 5
+
+We do this, using the help of simulation which further verified our
+mathematical treatment of the problem. We also note that, after about
+50 rolls, the highest possible score converges to 6 with probability
+1.
