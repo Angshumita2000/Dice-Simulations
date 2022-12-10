@@ -384,7 +384,7 @@ s\neq\phi
 }
 }\left(-1\right)^{\lfloor s\rfloor-1}P\left(\bigcup_{i\in s}A_{i}\right)
 ```
-Now suppose $s\subseteq\left\{ 1,\cdots,6\right\} $ with $s=\left\{ j_{1},\cdots,j_{\lfloor s\rfloor}\right\} $.
+Now suppose $s\subseteq \{ 1,\cdots,6 \}$ with $s= \{ j_{1},\cdots,j_{\lfloor s\rfloor} \}$.
 Then
 ```math
 P\left(\bigcap_{i\in s}A_{i}\right)=P\left(j_{1},\cdots,j_{\lfloor s\rfloor}\in X\right)P\left(j_{1},\cdots,j_{\lfloor s\rfloor}\in Y\right)
@@ -457,6 +457,8 @@ persp(x<-1:12,y<-1:12,
 	col='#3d995a')
 ```
 The plot came out as follows:
+
+![Q-7](Plots/Q-7plot.jpeg)
 
 ######	Conclusion
 We conclude, by simulation, that if $n=9$ and $m=10$, the probability
