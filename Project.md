@@ -691,7 +691,14 @@ plot(1:20,mean_vec,type='l',
 ```
 The plot came out as follows:
 
+![Q-10](Plots/Q-10plot.jpeg)
+
 ######	Conclusion
 We verified that the probability of rolling such a sequence is almost
 $5\times10^{-5}$ with the help of simulation. Also, we note that,
 as $n\to\infty$, this probability converges to 0.
+
+###	Part 3: References
+-	A First Course in Probability by Sheldon M. Ross
+-	An Introduction to Probability Theory and Its Applications by William Feller
+-	An Introduction to Probability and Statistics by Vijay K. Rohatgi and A.K. Md. Ehsanes Saleh
